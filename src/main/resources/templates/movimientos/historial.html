@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Histórico de movimientos')}"></head>
+<body class="d-flex flex-column min-vh-100">
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<main class="flex-grow-1">
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <h1 class="h4 mb-0">Histórico de movimientos</h1>
+
+            <div class="btn-group" role="group" aria-label="Filtro por tipo">
+                <a th:href="@{/movimientos}" class="btn btn-sm btn-outline-secondary"
+                   th:classappend="${filtro == 'TODOS'} ? 'active'">Todos</a>
+                <a th:href="@{/movimientos(tipo='ENTRADA')}" class="btn btn-sm btn-outline-success"
+                   th:classappend="${filtro == 'ENTRADA'} ? 'active'">Entradas</a>
+                <a th:href="@{/movimientos(tipo='SALIDA')}" class="btn btn-sm btn-outline-danger"
+                   th:classappend="${filtro == 'SALIDA'} ? 'active'">Salidas</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-striped mb-0 align-middle">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Producto</th>
+                        <th class="text-center">Tipo</th>
+                        <th class="text-end">Cantidad</th>
+                        <th>Usuario</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="m : ${movimientos}">
+                        <td th:text="${#temporals.format(m.fechaMovimiento, 'dd/MM/yyyy HH:mm')}">01/01/2026 00:00</td>
+                        <td th:text="${m.producto.nombre}">Producto</td>
+                        <td class="text-center">
+                            <span th:if="${m.tipoMovimiento.name() == 'ENTRADA'}" class="badge text-bg-success">ENTRADA</span>
+                            <span th:if="${m.tipoMovimiento.name() == 'SALIDA'}" class="badge text-bg-danger">SALIDA</span>
+                        </td>
+                        <td class="text-end" th:text="${m.cantidad}">0</td>
+                        <td th:text="${m.usuario.nombre}">Usuario</td>
+                    </tr>
+                    <tr th:if="${movimientos.isEmpty()}">
+                        <td colspan="5" class="text-center text-muted py-4">No hay movimientos registrados.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<th:block th:replace="~{fragments/scripts :: scripts}"></th:block>
+</body>
+</html>

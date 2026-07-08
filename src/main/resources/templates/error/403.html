@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Acceso denegado')}"></head>
+<body class="d-flex flex-column min-vh-100">
+<main class="flex-grow-1">
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-md-6 text-center">
+                <div class="display-1 fw-bold text-danger">403</div>
+                <h1 class="h4 mb-3">Acceso denegado</h1>
+                <p class="text-muted mb-4">No tienes permisos para acceder a este módulo.</p>
+                <a th:href="@{/}" class="btn btn-primary">Volver al inicio</a>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

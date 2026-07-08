@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Entrada de existencias')}"></head>
+<body class="d-flex flex-column min-vh-100">
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<main class="flex-grow-1">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6">
+                <h1 class="h4 mb-3">Entrada de existencias</h1>
+                <p class="text-muted small">Suma unidades al inventario de un producto activo.</p>
+
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show py-2" role="alert">
+                    <span th:text="${error}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/admin/productos/entrada}" th:object="${movimientoForm}" method="post">
+                            <div class="mb-3">
+                                <label for="idProducto" class="form-label">Producto</label>
+                                <select id="idProducto" th:field="*{idProducto}"
+                                        class="form-select" th:errorclass="is-invalid" required>
+                                    <option value="">— Seleccione un producto —</option>
+                                    <option th:each="p : ${productos}"
+                                            th:value="${p.idProducto}"
+                                            th:text="${p.nombre + ' (stock actual: ' + p.cantidad + ')'}">Producto</option>
+                                </select>
+                                <div class="invalid-feedback" th:errors="*{idProducto}">Error</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cantidad" class="form-label">Cantidad a ingresar</label>
+                                <input type="number" id="cantidad" th:field="*{cantidad}"
+                                       class="form-control" min="1" th:errorclass="is-invalid" required>
+                                <div class="invalid-feedback" th:errors="*{cantidad}">Error</div>
+                            </div>
+                            <div class="d-flex justify-content-end gap-2">
+                                <a th:href="@{/inventario}" class="btn btn-outline-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-primary">Registrar entrada</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<th:block th:replace="~{fragments/scripts :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Salida de productos')}"></head>
+<body class="d-flex flex-column min-vh-100">
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<main class="flex-grow-1">
+    <div class="container py-4">
+        <h1 class="h4 mb-3">Salida de productos</h1>
+
+        <div th:if="${exito}" class="alert alert-success alert-dismissible fade show py-2" role="alert">
+            <span th:text="${exito}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show py-2" role="alert">
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="h6 mb-3">Registrar salida</h2>
+                        <form th:action="@{/salidas}" th:object="${movimientoForm}" method="post">
+                            <div class="mb-3">
+                                <label for="idProducto" class="form-label">Producto</label>
+                                <select id="idProducto" th:field="*{idProducto}"
+                                        class="form-select" th:errorclass="is-invalid" required>
+                                    <option value="">— Seleccione un producto —</option>
+                                    <option th:each="p : ${productos}"
+                                            th:value="${p.idProducto}"
+                                            th:text="${p.nombre + ' (stock: ' + p.cantidad + ')'}">Producto</option>
+                                </select>
+                                <div class="invalid-feedback" th:errors="*{idProducto}">Error</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cantidad" class="form-label">Cantidad a retirar</label>
+                                <input type="number" id="cantidad" th:field="*{cantidad}"
+                                       class="form-control" min="1" th:errorclass="is-invalid" required>
+                                <div class="invalid-feedback" th:errors="*{cantidad}">Error</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Registrar salida</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table table-striped mb-0 align-middle">
+                            <thead class="table-dark">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Descripción</th>
+                                <th class="text-end">Stock disponible</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="p : ${productos}">
+                                <td th:text="${p.nombre}">Producto</td>
+                                <td th:text="${p.descripcion}">—</td>
+                                <td class="text-end" th:text="${p.cantidad}">0</td>
+                            </tr>
+                            <tr th:if="${productos.isEmpty()}">
+                                <td colspan="3" class="text-center text-muted py-4">No hay productos activos disponibles.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<th:block th:replace="~{fragments/scripts :: scripts}"></th:block>
+</body>
+</html>
