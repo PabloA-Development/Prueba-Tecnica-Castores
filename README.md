@@ -71,6 +71,12 @@ Para correr las pruebas:
 | Administrador | admin@castores.local     | Admin123$     |
 | Almacenista   | almacen@castores.local   | Almacen123$   |
 
+## Video de demostración
+
+Demostración de la aplicación con ambos roles y los mensajes de error:
+
+https://drive.google.com/file/d/1bJoZK6gn2D7v1mF2M2mjdV4_ny_qXWew/view?usp=drive_link
+
 ## Roles y permisos
 
 El **administrador** gestiona el catálogo: ve todos los productos (activos e
